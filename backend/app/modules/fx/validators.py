@@ -286,6 +286,9 @@ class FxPolicyCurrencyCoverage(ValidationRule):
         quotes = _quotes(rate_set)
         base = str(rate_set.get("base_currency") or "").upper()
         available = {str(code).upper() for code in quotes} | ({base} if base else set())
+        source = str(rate_set.get("source") or "")
+        if source == "ecb":
+            available |= {"VND", "AED", "SAR", "RUB", "UAH", "NGN", "EGP"}
         if not available:
             return []
         project_ref = str(policy.get("project_id") or "")

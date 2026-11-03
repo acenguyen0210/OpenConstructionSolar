@@ -83,6 +83,8 @@ _RATE_MIN_Q = Decimal("0.000001")
 # directions, so small rates keep twelve significant digits instead.
 _RATE_SIGNIFICANT_DIGITS = 12
 
+NON_ECB_CURRENCIES: frozenset[str] = frozenset({"VND", "AED", "SAR", "RUB", "UAH", "NGN", "EGP"})
+
 #: Where a resolved rate map was read from, as opposed to who published it.
 ORIGIN_RATE_SET = "rate_set"
 ORIGIN_LEGACY_CACHE = "legacy_cache"
@@ -335,6 +337,12 @@ def cross_rate(
         if ccy == base:
             return Decimal("1")
         found = base_rates.get(ccy)
+        if found is None and ccy in NON_ECB_CURRENCIES:
+            _seed_base, _seed_date, seed_rates, _ = _load_seed()
+            if _seed_base == base and ccy in seed_rates:
+                found = seed_rates[ccy]
+            elif ccy in seed_rates and base in seed_rates:
+                found = seed_rates[ccy] / seed_rates[base]
         if found is None:
             raise UnknownCurrencyError(ccy)
         value = _to_decimal(found)
@@ -1447,7 +1455,16 @@ def _rebase(rates: Mapping[str, Decimal], from_base: str, to_base: str) -> dict[
     full = dict(rates)
     full[source_base] = Decimal("1")
     if target_base not in full:
-        raise UnknownCurrencyError(target_base)
+        if target_base in NON_ECB_CURRENCIES:
+            _seed_base, _seed_date, seed_rates, _ = _load_seed()
+            if target_base in seed_rates:
+                full[target_base] = seed_rates[target_base]
+        if target_base not in full:
+            raise UnknownCurrencyError(target_base)
+    _seed_base, _seed_date, seed_rates, _ = _load_seed()
+    for ccy in NON_ECB_CURRENCIES:
+        if ccy not in full and ccy in seed_rates:
+            full[ccy] = seed_rates[ccy]
     divisor = full[target_base]
     return {ccy: value / divisor for ccy, value in full.items() if ccy != target_base}
 
