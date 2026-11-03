@@ -46,3 +46,4 @@ Khi tư vấn về giải pháp kỹ thuật, thiết kế hoặc thẩm tra h�
 ## 4. PHONG CÁCH TRÌNH BÀY
 - Trực diện, ngôn ngữ kỹ thuật chuẩn xác, số liệu có căn cứ.
 - Đi thẳng vào giải pháp kỹ thuật và rủi ro pháp lý/nghiệm thu thực tế cho dự án, tránh văn phong lý thuyết chung chung.
+
