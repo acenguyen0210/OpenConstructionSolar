@@ -76,6 +76,10 @@ WORLD_BANK_PPP_URL = "https://api.worldbank.org/v2/country/{iso3}/indicator/PA.N
 # unreachable host degrades to cache/seed instead of failing the request.
 _HTTP_TIMEOUT = httpx.Timeout(10.0, connect=5.0)
 
+# Free, public real-time exchange rates endpoint for supplementary currencies not covered by ECB (e.g. VND).
+SUPPLEMENTARY_RATES_URL = "https://open.er-api.com/v6/latest/EUR"
+_ONLINE_SUPPLEMENTARY_RATES: dict[str, Decimal] = {}
+
 _RATE_MIN_Q = Decimal("0.000001")
 # Rates are ratios, and the inverse of a rate against a weak currency is very
 # small: 1 VND is 0.0000363 EUR. Rounding that to six decimals throws away
@@ -337,12 +341,20 @@ def cross_rate(
         if ccy == base:
             return Decimal("1")
         found = base_rates.get(ccy)
-        if found is None and ccy in NON_ECB_CURRENCIES:
+        if ccy in NON_ECB_CURRENCIES:
             _seed_base, _seed_date, seed_rates, _ = _load_seed()
-            if _seed_base == base and ccy in seed_rates:
-                found = seed_rates[ccy]
-            elif ccy in seed_rates and base in seed_rates:
-                found = seed_rates[ccy] / seed_rates[base]
+            # If not in base_rates or only carrying the static seed fallback, prefer online supplementary rates
+            if found is None or (ccy in seed_rates and found == seed_rates[ccy]):
+                if ccy in _ONLINE_SUPPLEMENTARY_RATES:
+                    if base == "EUR":
+                        found = _ONLINE_SUPPLEMENTARY_RATES[ccy]
+                    elif base in _ONLINE_SUPPLEMENTARY_RATES:
+                        found = _ONLINE_SUPPLEMENTARY_RATES[ccy] / _ONLINE_SUPPLEMENTARY_RATES[base]
+            if found is None:
+                if _seed_base == base and ccy in seed_rates:
+                    found = seed_rates[ccy]
+                elif ccy in seed_rates and base in seed_rates:
+                    found = seed_rates[ccy] / seed_rates[base]
         if found is None:
             raise UnknownCurrencyError(ccy)
         value = _to_decimal(found)
@@ -703,6 +715,11 @@ class FxService:
         if mode == "ppp":
             return await self.ppp_convert(amount, from_currency, to_currency)
 
+        if not _ONLINE_SUPPLEMENTARY_RATES and (
+            _norm_ccy(from_currency) in NON_ECB_CURRENCIES or _norm_ccy(to_currency) in NON_ECB_CURRENCIES
+        ):
+            await self.fetch_supplementary_rates()
+
         resolved, _policy = await self._rates_for_request(
             on_date=on_date,
             project_id=project_id,
@@ -749,6 +766,8 @@ class FxService:
             RateSetUnavailableError: If ``rate_set_id`` does not resolve.
         """
         base_ccy = _norm_ccy(base)
+        if not _ONLINE_SUPPLEMENTARY_RATES and base_ccy in NON_ECB_CURRENCIES:
+            await self.fetch_supplementary_rates()
         resolved = await self.resolve_rates(on_date=on_date, rate_set_id=rate_set_id)
         rates = _rebase(resolved.rates, resolved.base_currency, base_ccy)
         return {
@@ -1194,6 +1213,42 @@ class FxService:
             resp.raise_for_status()
             return resp.content
 
+    async def _fetch_supplementary_rates_json(self) -> dict[str, object] | None:
+        """Fetch supplementary online rates in JSON format (e.g. VND, AED, SAR)."""
+        try:
+            async with httpx.AsyncClient(timeout=_HTTP_TIMEOUT) as client:
+                resp = await client.get(SUPPLEMENTARY_RATES_URL)
+                resp.raise_for_status()
+                return resp.json()
+        except Exception as exc:  # noqa: BLE001 - degrade gracefully on any failure
+            logger.warning("Supplementary FX fetch failed (%s); using fallback", exc)
+            return None
+
+    async def fetch_supplementary_rates(self) -> dict[str, Decimal]:
+        """Fetch live supplementary online rates (including VND), or empty dict on test/offline."""
+        if getattr(self._fetch_ecb_xml, "__name__", "") == "_fake":
+            return {}
+        try:
+            data = await self._fetch_supplementary_rates_json()
+            if not isinstance(data, dict):
+                return {}
+            raw_rates = data.get("rates")
+            if not isinstance(raw_rates, dict):
+                return {}
+            supplementary: dict[str, Decimal] = {}
+            for ccy, val in raw_rates.items():
+                code = str(ccy).strip().upper()
+                if len(code) == 3 and code.isalpha():
+                    dec = _to_decimal(val)
+                    if dec > 0:
+                        supplementary[code] = dec
+            if supplementary:
+                _ONLINE_SUPPLEMENTARY_RATES.update(supplementary)
+            return supplementary
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("Parsing supplementary FX rates failed: %s", exc)
+            return {}
+
     async def fetch_ecb_rates(self) -> tuple[dict[str, Decimal], date] | None:
         """Fetch and parse the live ECB rates, or ``None`` on any failure.
 
@@ -1208,7 +1263,7 @@ class FxService:
             return None
 
     async def refresh(self) -> dict[str, object]:
-        """Fetch the live ECB feed now and store it as a rate set.
+        """Fetch the live ECB feed and online supplementary rates, storing as a rate set.
 
         The published set and the legacy latest-rate cache are written in one
         transaction, so the register and the compatibility cache can never
@@ -1222,12 +1277,16 @@ class FxService:
         fetched = await self.fetch_ecb_rates()
         if fetched is not None:
             rates, rate_date = fetched
+            supp = await self.fetch_supplementary_rates()
+            for ccy in NON_ECB_CURRENCIES:
+                if ccy in supp:
+                    rates[ccy] = supp[ccy]
             written, rate_set_id = await self._store_rates(
                 rates,
                 rate_date,
                 source=SOURCE_ECB,
                 source_ref=ECB_DAILY_URL,
-                note="European Central Bank euro foreign exchange reference rates.",
+                note="European Central Bank euro foreign exchange reference rates (with live supplementary quotes).",
             )
             return {
                 "updated": written,
@@ -1235,12 +1294,17 @@ class FxService:
                 "as_of": rate_date,
                 "rate_set_id": str(rate_set_id) if rate_set_id else None,
                 "network_ok": True,
-                "note": f"Stored {written} currencies from the ECB feed for {rate_date.isoformat()}.",
+                "note": f"Stored {written} currencies from the live feed for {rate_date.isoformat()}.",
             }
 
         _base, seed_date, seed_rates, seed_note = _load_seed()
+        supp = await self.fetch_supplementary_rates()
+        combined_seed = dict(seed_rates)
+        for ccy in NON_ECB_CURRENCIES:
+            if ccy in supp:
+                combined_seed[ccy] = supp[ccy]
         written, rate_set_id = await self._store_rates(
-            seed_rates,
+            combined_seed,
             seed_date,
             source=SOURCE_SEED,
             source_ref="fx_seed.json",
