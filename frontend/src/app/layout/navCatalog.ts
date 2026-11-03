@@ -284,7 +284,7 @@ export const navGroups: NavGroup[] = [
       // by pathname and both rows open /bim/rules.
       { labelKey: 'nav.quantity_rules', defaultLabel: 'Quantity Rules', to: '/bim/rules', icon: SlidersHorizontal },
       { labelKey: 'nav.quantities', to: '/quantities', icon: Ruler },
-      { labelKey: 'nav.rebar_schedule', defaultLabel: 'Rebar Schedule', to: '/rebar-schedule', icon: Construction, advancedOnly: true },
+      { labelKey: 'nav.rebar_schedule', defaultLabel: 'Bảng nhôm', to: '/rebar-schedule', icon: Construction, advancedOnly: true },
     ],
   },
   // ── 3. COST DATA ───────────────────────────────────────────────────

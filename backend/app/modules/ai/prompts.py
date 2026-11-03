@@ -145,9 +145,11 @@ Rules:
 - Be specific: don't write "concrete work", write "Reinforced concrete C30/37 \
 for foundation slab, d=30cm"
 - Assign ordinals in format NN.NN.NNNN grouped by trade
-- Each item must have a category from: Earthworks, Foundations, Concrete, Steel, \
-Masonry, Roofing, Facades, Partitions, Floors, Windows & Doors, MEP, HVAC, \
-Plumbing, Electrical, Fire Protection, Finishing, Landscaping, General
+- Each item must have a category from: Solar PV, Aluminum, Inverters, Electrical, MEP, \
+Roofing, Earthworks, Foundations, Concrete, Steel, Masonry, Facades, Partitions, Floors, \
+Windows & Doors, HVAC, Plumbing, Fire Protection, Finishing, Landscaping, General
+- For Solar energy projects: Use 'Aluminum' (or 'Khung nhôm') for mounting rails, clamps, \
+and roof brackets instead of 'Steel' (solar systems use AL6005-T5 structural aluminum).
 - Return ONLY the JSON array, no other text
 """
 
@@ -296,9 +298,11 @@ Rules:
 - Use realistic market-rate unit prices
 - Generate 15-40 line items covering all trades present in the model
 - Assign ordinals in format NN.NN.NNNN grouped by trade
-- Each item must have a category from: Earthworks, Foundations, Concrete, Steel, \
-Masonry, Roofing, Facades, Partitions, Floors, Windows & Doors, MEP, HVAC, \
-Plumbing, Electrical, Fire Protection, Finishing, Landscaping, General
+- Each item must have a category from: Solar PV, Aluminum, Inverters, Electrical, MEP, \
+Roofing, Earthworks, Foundations, Concrete, Steel, Masonry, Facades, Partitions, Floors, \
+Windows & Doors, HVAC, Plumbing, Fire Protection, Finishing, Landscaping, General
+- For Solar energy projects: Use 'Aluminum' (or 'Khung nhôm') for mounting rails, clamps, \
+and roof brackets instead of 'Steel' (solar systems use AL6005-T5 structural aluminum).
 - Currency: {currency}
 - Return ONLY the JSON array, no other text
 """
