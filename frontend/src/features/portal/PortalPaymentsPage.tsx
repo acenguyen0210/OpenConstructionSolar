@@ -153,7 +153,7 @@ export function PortalPaymentsPage() {
           className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-oe-blue transition-colors hover:underline"
         >
           <ArrowLeft size={14} />
-          {t('payportal.back_to_app', { defaultValue: 'Back to OpenConstructionERP' })}
+          {t('payportal.back_to_app', { defaultValue: 'Back to OpenConstructionSolar' })}
         </Link>
       </CenteredShell>
     );

@@ -129,7 +129,7 @@ export function CustomBranding({ iconified }: CustomBrandingProps) {
         target="_blank"
         rel="noopener noreferrer"
         className="hover:opacity-80 transition-opacity"
-        title="OpenConstructionERP"
+        title="OpenConstructionSolar"
       >
         <Logo size="sm" />
       </a>

@@ -293,7 +293,7 @@ class Settings(BaseSettings):
         )
 
     # ── App ──────────────────────────────────────────────────────────────
-    app_name: str = "OpenConstructionERP"
+    app_name: str = "OpenConstructionSolar"
     app_version: str = Field(default_factory=_detect_version)
     app_env: Literal["development", "staging", "production"] = "development"
     # Off unless asked for. Debug switches on verbose 422 bodies (the raw

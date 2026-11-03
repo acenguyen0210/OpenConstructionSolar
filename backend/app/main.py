@@ -5336,7 +5336,7 @@ def create_app() -> FastAPI:
         _cli_data_dir = os.environ.get("OE_CLI_DATA_DIR")
         if _cli_host and _cli_port:
             _url = f"http://{_cli_host}:{_cli_port}"
-            logger.info("OpenConstructionERP is ready at %s", _url)
+            logger.info("OpenConstructionSolar is ready at %s", _url)
             # Demo passwords are now per-installation (BUG-D01 fix). The
             # actual values were either supplied via DEMO_*_PASSWORD env
             # vars or generated in ``_seed_demo_account`` and persisted to
