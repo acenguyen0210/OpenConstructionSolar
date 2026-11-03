@@ -103,22 +103,6 @@ $env:OE_DEFAULT_CURRENCY = "VND"
 
 ---
 
-## 📤 Hướng Dẫn Đẩy Dữ Liệu Lên GitHub
-
-Để đẩy mã nguồn và dữ liệu dự án lên GitHub repository cá nhân:
-`https://github.com/acenguyen0210/OpenConstructionSolar.git`
-
-Bạn chỉ cần nhấp đúp vào tệp:
-```cmd
-push-to-github.bat
-```
-*(hoặc chạy `.\push-to-github.ps1` trong PowerShell)*. Kịch bản sẽ tự động:
-1. Kiểm tra kết nối Git và trỏ remote `origin` về đúng repository của bạn.
-2. Hiển thị các tệp đã chỉnh sửa.
-3. Nhập thông điệp commit (hoặc bấm Enter để dùng mặc định).
-4. Tự động `git add`, `git commit` và `git push -u origin main`.
-
----
 
 ## 📂 Cấu Trúc Thư Mục Dự Án
 
