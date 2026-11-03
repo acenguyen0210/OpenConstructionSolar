@@ -821,7 +821,8 @@ export function UserManagementPage() {
   // Creating users is ADMIN-only (POST /users/ is gated by users.create=ADMIN).
   // Managers can view the page (users.list) but must not see the invite control,
   // since the call would 403. Server-side gate is authoritative regardless.
-  const isAdmin = useAuthStore((s) => s.userRole) === 'admin';
+  const authRole = useAuthStore((s) => s.userRole);
+  const isAdmin = authRole === 'admin';
   // Below manager the directory itself is refused (users.list), so the page
   // says so instead of firing the call and rendering an empty table.
   const canListUsers = useHasPermission('users.list');
@@ -1269,22 +1270,24 @@ export function UserManagementPage() {
         </div>
       </Card>
 
-      {/* Role Legend */}
-      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-content-tertiary">
-        <Shield size={13} />
-        {ROLES.map((r) => {
-          const cfg = ROLE_CONFIG[r];
-          const Icon = cfg.icon;
-          return (
-            <span key={r} className="flex items-center gap-1">
-              <Icon size={11} className={cfg.color} />
-              <strong>
+      {/* Current User Role */}
+      {(() => {
+        const myRole = (currentUser?.role || authRole || 'viewer') as UserRole;
+        const cfg = ROLE_CONFIG[myRole] ?? ROLE_CONFIG.viewer;
+        const Icon = cfg.icon;
+        return (
+          <div className="mt-4 flex items-center gap-2 text-xs text-content-tertiary">
+            <Shield size={13} />
+            <span>{t('users.current_user_role', { defaultValue: 'Vai trò hiện tại của bạn:' })}</span>
+            <span className="inline-flex items-center gap-1.5">
+              <Icon size={12} className={cfg.color} />
+              <strong className="text-content-secondary">
                 {t(`users.roles.${cfg.labelKey}`)}
               </strong>
             </span>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })()}
 
       {/* Invite Modal */}
       {showInvite && (

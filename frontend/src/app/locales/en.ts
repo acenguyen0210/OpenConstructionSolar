@@ -10627,6 +10627,7 @@ const resource = {
     "users.roles.qa_qc_hse": "QA/QC & HSE Engineer",
     "users.roles.om_technician": "O&M Technician",
     "users.roles.qs": "Quantity Surveyor (QS)",
+    "users.current_user_role": "Your current role:",
     "users.access_levels.none": "None",
     "users.access_levels.view": "View",
     "users.access_levels.edit": "Edit",

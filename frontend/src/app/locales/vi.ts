@@ -20803,6 +20803,7 @@ const resource = {
     "users.roles.qa_qc_hse": "Kỹ sư QA/QC & An toàn (HSE)",
     "users.roles.om_technician": "Kỹ thuật viên Vận hành & Bảo trì (O&M)",
     "users.roles.qs": "Kỹ sư khối lượng (QS)",
+    "users.current_user_role": "Vai trò hiện tại của bạn:",
     "viewerTools.clear_measurements": "Xóa tất cả phép đo",
     "viewerTools.locate": "Định vị tôi",
     "viewerTools.locate_denied": "Quyền truy cập vị trí bị từ chối",
