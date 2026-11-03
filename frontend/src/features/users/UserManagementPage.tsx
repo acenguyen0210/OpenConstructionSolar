@@ -37,6 +37,12 @@ import {
   Unlock,
   Save,
   Trash2,
+  Briefcase,
+  HardHat,
+  ClipboardCheck,
+  PenTool,
+  Zap,
+  Calculator,
 } from 'lucide-react';
 import { Card, Badge, Button, WideModal, Breadcrumb, ConfirmDialog, DismissibleInfo, IntroRichText, ModuleGuideButton } from '@/shared/ui';
 import { PageHeader } from '@/shared/ui/PageHeader';
@@ -95,11 +101,53 @@ const ROLE_CONFIG: Record<UserRole, RoleConfigEntry> = {
     color: 'text-red-600 dark:text-red-400',
     variant: 'error',
   },
+  project_manager: {
+    icon: Briefcase,
+    labelKey: 'project_manager',
+    color: 'text-purple-600 dark:text-purple-400',
+    variant: 'warning',
+  },
   manager: {
     icon: ShieldCheck,
     labelKey: 'manager',
     color: 'text-amber-600 dark:text-amber-400',
     variant: 'warning',
+  },
+  site_foreman: {
+    icon: HardHat,
+    labelKey: 'site_foreman',
+    color: 'text-orange-600 dark:text-orange-400',
+    variant: 'warning',
+  },
+  technical_supervisor: {
+    icon: ClipboardCheck,
+    labelKey: 'technical_supervisor',
+    color: 'text-cyan-600 dark:text-cyan-400',
+    variant: 'blue',
+  },
+  design_engineer: {
+    icon: PenTool,
+    labelKey: 'design_engineer',
+    color: 'text-indigo-600 dark:text-indigo-400',
+    variant: 'blue',
+  },
+  qa_qc_hse: {
+    icon: ShieldCheck,
+    labelKey: 'qa_qc_hse',
+    color: 'text-emerald-600 dark:text-emerald-400',
+    variant: 'success',
+  },
+  om_technician: {
+    icon: Zap,
+    labelKey: 'om_technician',
+    color: 'text-teal-600 dark:text-teal-400',
+    variant: 'blue',
+  },
+  qs: {
+    icon: Calculator,
+    labelKey: 'qs',
+    color: 'text-blue-600 dark:text-blue-400',
+    variant: 'blue',
   },
   editor: {
     icon: Edit3,
@@ -115,13 +163,32 @@ const ROLE_CONFIG: Record<UserRole, RoleConfigEntry> = {
   },
 };
 
-const ROLES: UserRole[] = ['admin', 'manager', 'editor', 'viewer'];
+const ROLES: UserRole[] = [
+  'admin',
+  'project_manager',
+  'manager',
+  'site_foreman',
+  'technical_supervisor',
+  'design_engineer',
+  'qa_qc_hse',
+  'om_technician',
+  'qs',
+  'editor',
+  'viewer',
+];
 
 // Privilege ranking (higher = more access). Used to detect a role DOWNGRADE,
 // which is treated as a destructive action and gated behind a confirmation.
 const ROLE_RANK: Record<UserRole, number> = {
   admin: 3,
+  project_manager: 2,
   manager: 2,
+  site_foreman: 2,
+  technical_supervisor: 1,
+  design_engineer: 1,
+  qa_qc_hse: 1,
+  om_technician: 1,
+  qs: 1,
   editor: 1,
   viewer: 0,
 };
@@ -348,7 +415,7 @@ function InviteModal({
           <label className="block text-xs font-medium text-content-secondary mb-1">
             {t('users.role', { defaultValue: 'Role' })}
           </label>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 max-h-56 overflow-y-auto pr-1">
             {ROLES.map((r) => {
               const cfg = ROLE_CONFIG[r];
               const Icon = cfg.icon;
@@ -710,7 +777,7 @@ function RoleDropdown({
           <div className="fixed inset-0 z-[60]" onClick={() => setOpen(false)} />
           <div
             role="listbox"
-            className="fixed z-[61] w-36 bg-surface-primary rounded-lg shadow-lg border border-border py-1 animate-fade-in"
+            className="fixed z-[61] w-64 max-h-80 overflow-y-auto bg-surface-primary rounded-lg shadow-lg border border-border py-1 animate-fade-in"
             style={{ top: pos.top, left: pos.left }}
           >
             {ROLES.map((r) => {
@@ -1203,7 +1270,7 @@ export function UserManagementPage() {
       </Card>
 
       {/* Role Legend */}
-      <div className="mt-4 flex items-center gap-4 text-xs text-content-tertiary">
+      <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-content-tertiary">
         <Shield size={13} />
         {ROLES.map((r) => {
           const cfg = ROLE_CONFIG[r];
@@ -1214,14 +1281,6 @@ export function UserManagementPage() {
               <strong>
                 {t(`users.roles.${cfg.labelKey}`)}
               </strong>
-              :{' '}
-              {r === 'admin'
-                ? t('users.role_admin_desc', { defaultValue: 'Full access' })
-                : r === 'manager'
-                  ? t('users.role_manager_desc', { defaultValue: 'Project management' })
-                  : r === 'editor'
-                    ? t('users.role_editor_desc', { defaultValue: 'Create & edit' })
-                    : t('users.role_viewer_desc', { defaultValue: 'Read-only' })}
             </span>
           );
         })}

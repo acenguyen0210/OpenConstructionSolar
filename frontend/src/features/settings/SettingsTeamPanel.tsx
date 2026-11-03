@@ -34,6 +34,12 @@ import {
   ShieldCheck,
   Edit3,
   Eye,
+  Briefcase,
+  HardHat,
+  ClipboardCheck,
+  PenTool,
+  Zap,
+  Calculator,
   Building2,
   BadgeCheck,
   ExternalLink,
@@ -56,14 +62,33 @@ const AGPL_URL = 'https://www.gnu.org/licenses/agpl-3.0.html';
 // ── Role display config (icon + badge variant). The human labels are read
 // from the SAME i18n keys the User Management page uses (users.roles.*), so
 // no new role strings are introduced and DE/RU/etc. stay translated. ──────
-const ROLE_META: Record<UserRole, { icon: typeof Crown; variant: 'error' | 'warning' | 'blue' | 'neutral' }> = {
+const ROLE_META: Record<UserRole, { icon: React.ElementType; variant: 'error' | 'warning' | 'blue' | 'neutral' | 'success' }> = {
   admin: { icon: Crown, variant: 'error' },
+  project_manager: { icon: Briefcase, variant: 'warning' },
   manager: { icon: ShieldCheck, variant: 'warning' },
+  site_foreman: { icon: HardHat, variant: 'warning' },
+  technical_supervisor: { icon: ClipboardCheck, variant: 'blue' },
+  design_engineer: { icon: PenTool, variant: 'blue' },
+  qa_qc_hse: { icon: ShieldCheck, variant: 'success' },
+  om_technician: { icon: Zap, variant: 'blue' },
+  qs: { icon: Calculator, variant: 'blue' },
   editor: { icon: Edit3, variant: 'blue' },
   viewer: { icon: Eye, variant: 'neutral' },
 };
 
-const ROLE_ORDER: UserRole[] = ['admin', 'manager', 'editor', 'viewer'];
+const ROLE_ORDER: UserRole[] = [
+  'admin',
+  'project_manager',
+  'manager',
+  'site_foreman',
+  'technical_supervisor',
+  'design_engineer',
+  'qa_qc_hse',
+  'om_technician',
+  'qs',
+  'editor',
+  'viewer',
+];
 
 function RoleChip({ role }: { role: UserRole }) {
   const { t } = useTranslation();
@@ -137,7 +162,19 @@ export function SettingsTeamPanel() {
     membersQuery.isError && membersQuery.error instanceof ApiError && membersQuery.error.status === 403;
 
   const stats = useMemo(() => {
-    const counts: Record<UserRole, number> = { admin: 0, manager: 0, editor: 0, viewer: 0 };
+    const counts: Record<UserRole, number> = {
+      admin: 0,
+      project_manager: 0,
+      manager: 0,
+      site_foreman: 0,
+      technical_supervisor: 0,
+      design_engineer: 0,
+      qa_qc_hse: 0,
+      om_technician: 0,
+      qs: 0,
+      editor: 0,
+      viewer: 0,
+    };
     let active = 0;
     for (const m of members) {
       if (m.role in counts) counts[m.role] += 1;

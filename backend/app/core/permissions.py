@@ -37,13 +37,18 @@ class Role(StrEnum):
     MANAGER = "manager"  # Project management, team management
     EDITOR = "editor"  # Create and modify content
     VIEWER = "viewer"  # Read-only access
-    # ── Field-worker surface (mobile/tablet, see
-    # docs/architecture/FIELD_WORKER_MOBILE_DESIGN.md). DESIGN-STAGE
-    # placeholders - the permission set is intentionally empty until
-    # the pilot router lands so adding the enum value does not
-    # accidentally widen any existing endpoint's scope.
+
+    # ── Solar & Construction roles
+    PROJECT_MANAGER = "project_manager"  # PM / Giám đốc dự án
+    SITE_FOREMAN = "site_foreman"  # Chỉ huy trưởng
+    TECHNICAL_SUPERVISOR = "technical_supervisor"  # Giám sát kỹ thuật
+    DESIGN_ENGINEER = "design_engineer"  # Kỹ sư thiết kế
+    QA_QC_HSE = "qa_qc_hse"  # Kỹ sư QA/QC & An toàn (HSE)
+    OM_TECHNICIAN = "om_technician"  # Kỹ thuật viên Vận hành & Bảo trì (O&M)
+    QS = "qs"  # Kỹ sư khối lượng (QS)
+
+    # ── Field-worker surface
     SITE_INSPECTOR = "site_inspector"  # QA/HSE inspector, read-broad write-narrow
-    SITE_FOREMAN = "site_foreman"  # crew foreman, signs off worker entries
     FIELD_WORKER = "field_worker"  # site labourer, lowest-trust persona
 
 
@@ -57,11 +62,17 @@ class Role(StrEnum):
 # §11 Risk #3.
 ROLE_HIERARCHY: dict[Role, int] = {
     Role.FIELD_WORKER: -2,
-    Role.SITE_FOREMAN: -1,
     Role.SITE_INSPECTOR: 0,
     Role.VIEWER: 0,
     Role.EDITOR: 1,
+    Role.TECHNICAL_SUPERVISOR: 1,
+    Role.DESIGN_ENGINEER: 1,
+    Role.QA_QC_HSE: 1,
+    Role.OM_TECHNICIAN: 1,
+    Role.QS: 1,
+    Role.SITE_FOREMAN: 2,
     Role.MANAGER: 2,
+    Role.PROJECT_MANAGER: 2,
     Role.ADMIN: 3,
 }
 
@@ -71,9 +82,30 @@ ROLE_HIERARCHY: dict[Role, int] = {
 # allowing construction-industry titles ("estimator", "surveyor", ...) to
 # work without manual migration. Values are ALWAYS canonical Role members.
 ROLE_ALIASES: dict[str, Role] = {
-    "estimator": Role.EDITOR,
-    "quantity_surveyor": Role.EDITOR,
-    "qs": Role.EDITOR,
+    "pm": Role.PROJECT_MANAGER,
+    "project_manager": Role.PROJECT_MANAGER,
+    "giam_doc_du_an": Role.PROJECT_MANAGER,
+    "site_foreman": Role.SITE_FOREMAN,
+    "chi_huy_truong": Role.SITE_FOREMAN,
+    "foreman": Role.SITE_FOREMAN,
+    "technical_supervisor": Role.TECHNICAL_SUPERVISOR,
+    "giam_sat_ky_thuat": Role.TECHNICAL_SUPERVISOR,
+    "supervisor": Role.TECHNICAL_SUPERVISOR,
+    "design_engineer": Role.DESIGN_ENGINEER,
+    "ky_su_thiet_ke": Role.DESIGN_ENGINEER,
+    "designer": Role.DESIGN_ENGINEER,
+    "qa_qc_hse": Role.QA_QC_HSE,
+    "qa_qc": Role.QA_QC_HSE,
+    "hse": Role.QA_QC_HSE,
+    "an_toan": Role.QA_QC_HSE,
+    "om_technician": Role.OM_TECHNICIAN,
+    "o_m": Role.OM_TECHNICIAN,
+    "om": Role.OM_TECHNICIAN,
+    "van_hanh_bao_tri": Role.OM_TECHNICIAN,
+    "qs": Role.QS,
+    "estimator": Role.QS,
+    "quantity_surveyor": Role.QS,
+    "du_toan": Role.QS,
     "user": Role.EDITOR,
     "superuser": Role.ADMIN,
     "owner": Role.ADMIN,
