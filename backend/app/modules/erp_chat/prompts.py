@@ -3,9 +3,40 @@
 """ERP Chat system prompts and the per-request context block appended to them."""
 
 import json
+import os
 import re
 import uuid
 from datetime import datetime
+
+VIETNAM_SOLAR_LEGAL_KNOWLEDGE = """\
+## CƠ SỞ PHÁP LÝ & QUY ĐỊNH ĐIỆN MẶT TRỜI VIỆT NAM (CẬP NHẬT MỚI NHẤT):
+1. **Nghị định 135/2024/NĐ-CP (Ban hành ngày 22/10/2024)** - Quy định cơ chế khuyến khích phát triển điện mặt trời mái nhà tự sản xuất, tự tiêu thụ:
+   - **Phạm vi áp dụng**: Nhà ở, cơ quan công sở, khu công nghiệp, cụm công nghiệp, khu chế xuất, cơ sở sản xuất kinh doanh trên toàn quốc.
+   - **Bán điện dư thừa**: Cho phép bán sản lượng điện dư lên lưới điện quốc gia tối đa **20%** công suất lắp đặt thực tế. Giá mua điện dư tính theo giá điện năng thị trường bình quân của năm trước liền kề do EVN tính toán và công bố.
+   - **Hệ thống không bán điện dư**: Bắt buộc lắp đặt thiết bị chống phát ngược lên lưới (**Zero-Export**).
+   - **Giấy phép hoạt động điện lực**:
+     + Công suất dưới 1.000 kW (1 MW): Được **miễn trừ** giấy phép hoạt động điện lực.
+     + Công suất từ 1.000 kW trở lên và có bán điện dư: Bắt buộc lập hồ sơ xin cấp giấy phép hoạt động điện lực.
+   - **Thủ tục đăng ký**: Đăng ký cấp Giấy chứng nhận phát triển tại Sở Công Thương (công trình lớn, KCN) hoặc UBND cấp huyện; thỏa thuận đấu nối với Điện lực địa phương (EVN).
+   - **Điều kiện an toàn bắt buộc**: Phải có thẩm tra an toàn chịu lực kết cấu mái nhà (tải trọng tĩnh/động), thẩm duyệt/nghiệm thu an toàn PCCC, an toàn điện và bảo vệ môi trường theo quy định.
+
+2. **Nghị định 80/2024/NĐ-CP (Ban hành ngày 03/07/2024)** - Cơ chế mua bán điện trực tiếp (**DPPA**) giữa Đơn vị phát điện năng lượng tái tạo và Khách hàng sử dụng điện lớn:
+   - **Qua đường dây kết nối riêng**: Đơn vị phát điện và khách hàng lớn ký hợp đồng trực tiếp, giá thỏa thuận, không giới hạn công suất.
+   - **Qua lưới điện quốc gia**:
+     + Khách hàng lớn: Tiêu thụ bình quân từ **200.000 kWh/tháng** trở lên (đấu nối cấp điện áp từ 22 kV trở lên).
+     + Nhà máy phát điện mặt trời/gió: Công suất từ **10 MW** trở lên.
+     + Giao dịch mua bán qua thị trường điện giao ngay kết hợp Hợp đồng kỳ hạn dạng chênh lệch giá (**CfD**).
+
+3. **Quy hoạch phát triển điện lực quốc gia (Quy hoạch điện VIII - QĐ 500/QĐ-TTg & Kế hoạch 262/QĐ-TTg)**:
+   - Định hướng đến năm 2030: Phấn đấu 50% các tòa nhà công sở và 50% nhà dân sử dụng điện mặt trời mái nhà tự sản tự tiêu.
+   - Cơ chế giá FIT (QĐ 11/2017 và QĐ 13/2020) đã hết hiệu lực; hiện nay chuyển sang mô hình Tự sản tự tiêu (NĐ 135/2024) hoặc Mua bán điện trực tiếp DPPA (NĐ 80/2024).
+
+4. **Quy chuẩn An toàn PCCC, Kết cấu & Đấu nối Kỹ thuật**:
+   - **PCCC**: QCVN 06:2022/BXD và Sửa đổi 1:2023 QCVN 06:2022/BXD; Hướng dẫn tại Công văn 3288/C07-PCCC (khoảng cách an toàn mép mái, lối đi cho lính cứu hỏa, hệ thống ngắt khẩn cấp DC Rapid Shutdown, vật liệu cáp chống cháy tiêu chuẩn).
+   - **Kết cấu xây dựng**: QCVN 02:2022/BXD (số liệu gió bão địa phương theo vùng áp lực gió), TCVN 5574:2018 (kết cấu bê tông cốt thép), TCVN 5575:2012 (kết cấu thép), sử dụng hệ khung nhôm định hình AL6005-T5 hoặc thép mạ kẽm nhúng nóng.
+   - **Kỹ thuật đấu nối**: Thông tư 39/2015/TT-BCT và Thông tư 30/2019/TT-BCT quy định kỹ thuật hệ thống điện phân phối; inverter hòa lưới đạt chuẩn IEC 62109, IEC 62116 (chống hòa lưới khi mất điện lưới - Anti-Islanding).
+"""
+
 
 SYSTEM_PROMPT = """\
 You are the **OpenConstructionERP AI Assistant** - an expert construction-cost \
@@ -229,4 +260,7 @@ def build_context_block(
             + ". When the request is really one of these, call propose_ui_action with the id and an "
             "honest confidence; the person confirms before it runs."
         )
+    pack = os.environ.get("OE_PACK", "").strip() or os.environ.get("OE_PARTNER_PACK", "").strip()
+    if pack == "vietnam-solar" or (locale and str(locale).lower().startswith("vi")):
+        lines.append(VIETNAM_SOLAR_LEGAL_KNOWLEDGE)
     return "\n".join(lines) + "\n"
