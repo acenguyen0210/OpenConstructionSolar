@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openconstructionerp-vietnam-solar"
+version = "1.0.0"
+description = "Pre-configured partner pack for Vietnam Solar EPC contractors — Rooftop C&I, Utility-scale PV, BESS, Decree 135/2024/ND-CP (Self-consumption & Zero Export), Decree 80/2024/ND-CP (DPPA), TCVN 11855 / IEC 62446, QCVN 01/02/06, PCCC C07/3288, EVN Grid Code (TT 39/2015, TT 30/2019) and Circular 11/2021/TT-BXD cost structures."
+readme = "README.md"
+license = { text = "AGPL-3.0-or-later" }
+requires-python = ">=3.11"
+authors = [
+    { name = "OpenConstructionERP", email = "info@datadrivenconstruction.io" },
+]
+keywords = ["openconstructionerp", "ocerp", "partner-pack", "vietnam", "solar", "photovoltaic", "bess", "epc", "evn", "tcvn", "qcvn", "nd135", "dppa"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Other Audience",
+    "Topic :: Office/Business",
+    "Natural Language :: Vietnamese",
+]
+dependencies = [
+    "openconstructionerp>=5.5.0",
+]
+
+[project.urls]
+Source = "https://github.com/DataDrivenConstruction/openconstructionerp"
+
+[project.entry-points."openconstructionerp.partner_packs"]
+vietnam-solar = "openconstructionerp_vietnam_solar:MANIFEST"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+openconstructionerp_vietnam_solar = ["*.svg", "*.yaml", "*.json", "rule_packs/*.json"]
+

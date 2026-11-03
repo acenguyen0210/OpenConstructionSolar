@@ -1,0 +1,23 @@
+{
+  "rule_pack_id": "vietnam_solar_pv_design",
+  "name": "Vietnam Solar PV Engineering Design — Climate adaptation, DC/AC ratio, tropical derating, QCVN 02:2022",
+  "standard": "TCVN 11855-1:2017 / IEC 62446-1:2016 (PV system testing and documentation) + TCVN 6781:2017 / IEC 61215:2016 (Module design qualification) + TCVN 10884:2015 / IEC 61730:2011 (Safety qualification) + QCVN 02:2022/BXD (Vietnam Climate Data) + IEC 62548:2023 (PV array design)",
+  "jurisdiction": "VN",
+  "description": "Engineering validation for solar PV array design tailored to Vietnam's tropical monsoonal climate and regional weather zones. Validates optimal tilt angles (10° to 15° south-facing in Southern and Central Vietnam for self-cleaning during rainy seasons, 15° to 18° in Northern Vietnam). Verifies DC/AC overloading ratio (recommended 1.25 to 1.35 in Southern Vietnam and 1.30 to 1.40 in Northern Vietnam due to winter irradiation variations). Checks structural wind load survival per QCVN 02:2022/BXD (Zone I to IV wind pressure, typhoon resistance up to Beaufort scale 12-14 in coastal regions like Ninh Thuan, Binh Thuan, Quang Tri). Validates thermal loss coefficient derating for module operating temperatures exceeding 65°C under tropical solar irradiation (up to 1,800 - 2,000 kWh/m2/year in Southern Vietnam).",
+  "enables_rule_ids": [],
+  "planned_not_built_rule_ids": [
+    "vn_pv.optimal_tilt_angle_within_regional_band",
+    "vn_pv.dc_ac_ratio_within_tropical_optimal_band",
+    "vn_pv.inverter_tropical_thermal_derating_calculated",
+    "vn_pv.wind_load_qcvn02_compliant_for_region",
+    "vn_pv.corrosion_resistance_c4_c5_for_coastal_zones",
+    "vn_pv.string_voltage_under_1500v_at_minimum_ambient",
+    "vn_pv.tcvn11855_string_voc_isc_testing_specified",
+    "vn_pv.tcvn11855_insulation_resistance_risa_specified",
+    "vn_pv.monocrystalline_bifacial_gain_factor_verified",
+    "vn_pv.soiling_monsoon_washing_cycle_scheduled",
+    "vn_pv.surge_protection_spd_type1_2_specified"
+  ],
+  "planned_not_built_note": "Planned, not built. The engine defines none of the ids in planned_not_built_rule_ids, so switching this document on does not run them. They record what this document is meant to check once the rules are written; move an id back to enables_rule_ids on the day its rule lands, not before."
+}
+

@@ -1,0 +1,23 @@
+{
+  "rule_pack_id": "vietnam_solar_regulations",
+  "name": "Vietnam Solar Regulations & Decrees — Decree 135/2024/ND-CP, DPPA Decree 80/2024/ND-CP, PDP8",
+  "standard": "Decree 135/2024/ND-CP (Self-consumption & Zero-Export Rooftop Solar) + Decree 80/2024/ND-CP (DPPA mechanism) + Decision 500/QD-TTg (Power Development Plan VIII) + Circular 11/2021/TT-BXD + Circular 12/2021/TT-BXD (Cost Norms)",
+  "jurisdiction": "VN",
+  "description": "Comprehensive legal and regulatory validation for solar PV projects in Vietnam. Covers Decree 135/2024/ND-CP requirements for rooftop solar (self-consumption registration with provincial DOIT or district authorities, maximum 20% surplus power generation cap into the national grid or Zero-Export control requirement, structural roof safety certification, electrical safety inspection). Validates DPPA direct power purchase compliance per Decree 80/2024/ND-CP (virtual or physical PPA with large consumers ≥ 200,000 kWh/month). Validates Vietnamese public construction cost estimation structure per Circular 11/2021/TT-BXD (direct cost, indirect cost, overhead, profit, VAT and contingency).",
+  "enables_rule_ids": [],
+  "planned_not_built_rule_ids": [
+    "vn_solar.decree135_self_consumption_registration_documented",
+    "vn_solar.decree135_surplus_capacity_under_20_pct_cap",
+    "vn_solar.decree135_zero_export_controller_certified",
+    "vn_solar.decree135_roof_structural_safety_assessed",
+    "vn_solar.dppa_decree80_power_purchase_agreement_attached",
+    "vn_solar.dppa_decree80_large_consumer_eligibility_checked",
+    "vn_solar.pdp8_grid_capacity_allocation_verified",
+    "vn_solar.bxd_tt11_cost_breakdown_structure_applied",
+    "vn_solar.bxd_tt11_indirect_costs_within_norm_band",
+    "vn_solar.bxd_tt11_profit_rate_within_norm_band",
+    "vn_solar.bxd_vat_rate_statutory_compliant"
+  ],
+  "planned_not_built_note": "Planned, not built. The engine defines none of the ids in planned_not_built_rule_ids, so switching this document on does not run them. They record what this document is meant to check once the rules are written; move an id back to enables_rule_ids on the day its rule lands, not before."
+}
+

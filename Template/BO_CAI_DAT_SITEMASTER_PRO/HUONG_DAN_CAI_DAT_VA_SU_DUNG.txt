@@ -1,0 +1,75 @@
+================================================================================
+          HƯỚNG DẪN CÀI ĐẶT & SỬ DỤNG BỘ ADD-IN SITEMASTER PRO (2026)
+        Tích hợp: Hồ Sơ ITP Solar PV + Quản Lý Văn Bản + Tiện Ích MiniTool
+        Tính năng mới: Quản Lý CSDL Hồ Sơ Dự Án + Bảo Vệ Mẫu Biểu Gốc
+================================================================================
+
+I. THÔNG TIN BẢN QUYỀN & TÁC GIẢ:
+   • Tác giả: Nguyễn Đức Thắng
+   • Email: ducthang.nguyen0210@gmail.com
+   • Hotline / Zalo: 0962.228.783
+   • Phiên bản: SiteMaster Pro Suite v3.0 Portable Edition (2026)
+
+--------------------------------------------------------------------------------
+II. ĐIỂM NỔI BẬT TRÊN BẢN CẬP NHẬT 2026 (PORTABLE & PROJECT DATABASE):
+
+   1. BẢO VỆ BIỂU MẪU GỐC TUYỆT ĐỐI (TEMPLATE PROTECTION):
+      - Khi bấm nút "Tạo Dự Án" trên thanh Ribbon, Excel sẽ tự động sinh ra một
+        Workbook mới hoàn toàn từ file Template mẫu.
+      - File mẫu gốc (Template_ITP_Pro.xlsx) không bao giờ bị ghi đè hay thay đổi,
+        luôn giữ nguyên trạng thái biểu mẫu chuẩn ban đầu.
+
+   2. QUẢN LÝ HỒ SƠ DỰ ÁN TÁCH RỜI (PROJECT PROFILE DATABASE):
+      - Thông tin từng dự án (Tên dự án, Địa chỉ, CĐT, TVGS, Nhà thầu, Người ký...)
+        được lưu độc lập tại tệp trung tâm: SiteMaster_Projects.json.
+      - Chức năng "Nạp Nhanh Dự Án Vào File...": Chỉ cần chọn dự án từ danh sách,
+        toàn bộ thông tin sẽ tự động điền vào sheet MA_HANGMUC và MA_TAILIEU.
+      - Chức năng "Xuất / Nhập CSDL (JSON)": Dễ dàng sao lưu, gửi cho đồng nghiệp
+        hoặc chuyển sang máy tính mới chỉ với 1 cú click chuột.
+
+   3. THIẾT KẾ ĐỂ CHUNG THƯ MỤC - DỄ DÀNG CHUYỂN MÁY (PORTABLE ALL-IN-ONE):
+      - Toàn bộ các thành phần: Add-in (.xlam), Biểu mẫu (.xlsx), CSDL (.json)
+        và thư viện MiniTool đều nằm chung trong cùng một thư mục.
+      - Bạn có thể copy toàn bộ thư mục này sang máy khác, lưu trên USB hoặc Google Drive
+        để sử dụng ở bất kỳ máy tính nào mà không sợ bị thất lạc đường dẫn.
+
+--------------------------------------------------------------------------------
+III. HƯỚNG DẪN CÀI ĐẶT & CHUYỂN ĐỔI MÁY:
+
+► CÁCH 1: CÀI ĐẶT TỰ ĐỘNG 1-CHẠM (KHUYÊN DÙNG):
+   1. Nhấp đúp chuột vào tệp: [CAI_DAT_TU_DONG_1_CLICK.bat]
+   2. Chương trình sẽ tự động đồng bộ toàn bộ Add-in, Template và CSDL vào hệ thống
+      và kích hoạt sẵn sàng trên Excel.
+   3. Mở Microsoft Excel lên là dùng được ngay lập tức!
+
+► CÁCH 2: DÙNG TRỰC TIẾP KHÔNG CẦN CÀI ĐẶT (PORTABLE USB):
+   - Mở trực tiếp tệp [SiteMaster.xlam] và [QLVB_MiniTool.xlam] ngay trong thư mục này.
+   - Add-in sẽ tự động nhận diện các file Template và CSDL nằm cùng thư mục!
+
+► CÁCH 3: CÀI ĐẶT THỦ CÔNG:
+   1. Nhấn [Windows + R], dán dòng sau và bấm Enter:
+      %appdata%\Microsoft\AddIns
+   2. Sao chép toàn bộ các tệp trong thư mục bộ cài vào thư mục vừa mở.
+   3. Mở Excel -> File -> Options -> Add-ins -> Manage: Excel Add-ins -> Go...
+   4. Tích chọn: [SiteMaster] và [QLVB_MiniTool] rồi bấm OK.
+
+--------------------------------------------------------------------------------
+IV. HƯỚNG DẪN SỬ DỤNG CÁC TÍNH NĂNG CHÍNH:
+
+1. TẠO DỰ ÁN MỚI:
+   - Trên Ribbon [SITEMASTER PRO], bấm nút "Tạo Dự Án" -> Chọn "Mẫu ITP Solar PV"
+     hoặc "Mẫu Quản Lý Văn Bản".
+   - File mới được tạo ra độc lập, sẵn sàng để làm việc.
+
+2. NẠP DỮ LIỆU DỰ ÁN ĐÃ LƯU:
+   - Trên Ribbon, vào menu "Hồ Sơ Dự Án" -> Bấm "⚡ Nạp Nhanh Dự Án Vào File...".
+   - Chọn số thứ tự dự án (ví dụ: 1 hoặc 2) -> Thông tin tự động điền vào bảng.
+
+3. LƯU THÊM DỰ ÁN MỚI VÀO CSDL:
+   - Bấm nút "Cài Đặt Dự Án" trên thanh Ribbon, điền thông tin dự án -> Bấm "Lưu Dự Án".
+   - Thông tin sẽ tự động được ghi nhớ vào CSDL trung tâm SiteMaster_Projects.json.
+
+4. SAO LƯU & CHUYỂN DỮ LIỆU SANG MÁY KHÁC:
+   - Vào menu "Hồ Sơ Dự Án" -> Bấm "📤 Xuất CSDL Dự Án (JSON)..." để lưu ra file.
+   - Trên máy tính mới, vào "Hồ Sơ Dự Án" -> Bấm "📥 Nhập CSDL Dự Án (JSON)..."
+     để nạp lại toàn bộ hồ sơ đã có.

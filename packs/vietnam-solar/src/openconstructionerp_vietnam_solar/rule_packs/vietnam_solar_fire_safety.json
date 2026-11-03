@@ -1,0 +1,21 @@
+{
+  "rule_pack_id": "vietnam_solar_fire_safety",
+  "name": "Vietnam Solar Fire Safety & Prevention — QCVN 06:2022/BXD & Document 3288/C07-P4 (PCCC)",
+  "standard": "QCVN 06:2022/BXD (Fire Safety of Buildings and Constructions) + Official Dispatch 3288/C07-P4 (Police Department of Fire Fighting and Rescue - Guidelines on Fire Safety for Rooftop Solar PV) + QCVN 01:2020/BCT (National Electrical Safety)",
+  "jurisdiction": "VN",
+  "description": "Fire safety and emergency access validation for rooftop solar installations in industrial parks (KCN) and commercial facilities across Vietnam. Enforces Document 3288/C07-P4 requirements: minimum 1.5m perimeter maintenance and firefighter access walkway around roof edges and between panel arrays; maximum continuous panel array dimension of 40m x 40m without an intervening access pathway; Rapid Shutdown or emergency DC disconnecting means located outside or at ground-level for first responders; automatic aerosol or clean agent fire suppression for indoor inverters and transformer substations; earthing resistance R < 4 Ohms per QCVN 01:2020/BCT; lightning protection air terminals per TCVN 9385:2012 / NFC 17-102.",
+  "enables_rule_ids": [],
+  "planned_not_built_rule_ids": [
+    "vn_pccc.firefighter_walkway_clearance_1_5m_minimum",
+    "vn_pccc.array_block_size_within_40m_limit",
+    "vn_pccc.rapid_shutdown_system_specified",
+    "vn_pccc.emergency_dc_isolation_switch_at_ground_level",
+    "vn_pccc.roof_combustibility_class_compatible",
+    "vn_pccc.inverter_transformer_fire_suppression_system",
+    "vn_pccc.earthing_resistance_under_4_ohms_qcvn01",
+    "vn_pccc.lightning_protection_radius_coverage_verified",
+    "vn_pccc.fire_department_inspection_and_approval_logged"
+  ],
+  "planned_not_built_note": "Planned, not built. The engine defines none of the ids in planned_not_built_rule_ids, so switching this document on does not run them. They record what this document is meant to check once the rules are written; move an id back to enables_rule_ids on the day its rule lands, not before."
+}
+

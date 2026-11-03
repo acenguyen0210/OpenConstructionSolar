@@ -1,0 +1,34 @@
+{
+  "Dự án Mẫu - Solar Rooftop": {
+    "ProjectName": "Hệ Thống Điện Mặt Trời Áp Mái 1.2MWp",
+    "Address": "Khu Công Nghiệp VSIP, Tỉnh Bình Dương",
+    "Owner": "Công ty TNHH Năng Lượng Xanh Việt Nam",
+    "Customer": "Tư Vấn Giám Sát Tân Phát",
+    "Contractor": "Công Ty Cổ Phần Kỹ Thuật Công Nghệ DAT",
+    "ProjectID": "SOLAR-VSIP-2026",
+    "ContractNo": "HĐ-DAT-VSIP/2026",
+    "InvestorRep": "Nguyễn Văn An",
+    "InvestorRepRole": "Giám đốc BQLDA",
+    "ContractorRep": "Trần Văn Bình",
+    "ContractorRepRole": "Chỉ huy trưởng công trình",
+    "LogoCustomer": "",
+    "LogoOwner": "",
+    "LogoContractor": ""
+  },
+  "Dự án Formosa Hà Tĩnh": {
+    "ProjectName": "Dự án Điện Mặt Trời Mái Nhà Formosa",
+    "Address": "Khu kinh tế Vũng Áng, Kỳ Anh, Hà Tĩnh",
+    "Owner": "Công ty TNHH Gang Thép Hưng Nghiệp Formosa Hà Tĩnh",
+    "Customer": "Tư vấn Giám sát 4M GREEN POWER",
+    "Contractor": "Công ty CP Kỹ Thuật Công Nghệ DAT",
+    "ProjectID": "FHS-SOLAR-2026",
+    "ContractNo": "HĐ-DAT-FHS/2026",
+    "InvestorRep": "Đại diện CĐT",
+    "InvestorRepRole": "Trưởng phòng Quản lý dự án",
+    "ContractorRep": "Chỉ huy trưởng",
+    "ContractorRepRole": "Chỉ huy trưởng",
+    "LogoCustomer": "",
+    "LogoOwner": "",
+    "LogoContractor": ""
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "rule_pack_id": "vietnam_solar_lcoe",
+  "name": "Vietnam Solar Financial & LCOE Modeling — Payback, NPV, IRR, Avoided Cost Tariff & DPPA",
+  "standard": "National Power Development Plan VIII (PDP8) + EVN Retail Electricity Tariff Schedule (Decision 2699/QD-BCT) + NREL ATB LCOE Methodology + ISO 50001 (Energy Management)",
+  "jurisdiction": "VN",
+  "description": "Financial feasibility and Levelised Cost of Electricity (LCOE) validation for solar power investments in Vietnam. Evaluates CAPEX benchmarks in VND/Wp (typical turnkey EPC 10,500,000 - 13,500,000 VND/kWp for C&I rooftop; 9,000,000 - 11,500,000 VND/kWp for ground-mount farm); OPEX assumptions (1-1.5% CAPEX/year for O&M, module washing, inverter replacement reserve); PVSyst annual specific yield (1,350 - 1,750 kWh/kWp/year based on solar resource in Southern and South-Central Vietnam); financial returns (Internal Rate of Return IRR > 14%, Net Present Value NPV, Payback Period PBP typically 4.0 - 5.5 years for commercial/industrial rooftop displacing peak/standard EVN tariff bands).",
+  "enables_rule_ids": [],
+  "planned_not_built_rule_ids": [
+    "vn_lcoe.turnkey_capex_per_wp_within_market_benchmark",
+    "vn_lcoe.annual_opex_percentage_budgeted",
+    "vn_lcoe.pvsyst_specific_yield_consistent_with_solargis",
+    "vn_lcoe.degradation_rate_under_0_5_pct_per_year",
+    "vn_lcoe.project_irr_exceeds_hurdle_rate",
+    "vn_lcoe.simple_payback_period_under_7_years",
+    "vn_lcoe.evn_tariff_displacement_schedule_referenced",
+    "vn_lcoe.dppa_strike_price_and_wheeling_fee_modelled",
+    "vn_lcoe.inverter_replacement_reserve_fund_allocated"
+  ],
+  "planned_not_built_note": "Planned, not built. The engine defines none of the ids in planned_not_built_rule_ids, so switching this document on does not run them. They record what this document is meant to check once the rules are written; move an id back to enables_rule_ids on the day its rule lands, not before."
+}
+

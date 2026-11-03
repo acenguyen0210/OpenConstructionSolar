@@ -1,0 +1,58 @@
+# Vietnam Solar EPC Pack - First-login onboarding wizard.
+# Streamed by /api/v1/partner-pack/onboarding-script and rendered by
+# the OnboardingWizard React component in Vietnamese.
+
+version: 2
+locale: vi
+title: "Chào mừng đến với OpenConstructionERP: Phiên bản Điện Mặt Trời Việt Nam"
+subtitle: "Thiết lập nhanh không gian làm việc chuyên biệt cho Tổng thầu EPC, Chủ đầu tư và Đơn vị O&M Điện mặt trời (Nghị định 135/2024, Nghị định 80/2024 DPPA, TCVN 11855, QCVN 06 PCCC, Tiêu chuẩn EVN)."
+
+steps:
+  - id: company_profile
+    title: "Hồ sơ Doanh nghiệp Solar EPC"
+    body: "Nhập thông tin doanh nghiệp để thể hiện trên các hồ sơ dự toán, hồ sơ thầu, báo cáo kỹ thuật và hồ sơ thỏa thuận đấu nối với EVN."
+    fields:
+      - { key: company_name, label: "Tên công ty / Đơn vị EPC", type: text, required: true }
+      - { key: tax_id, label: "Mã số thuế doanh nghiệp", type: text, required: false }
+      - { key: business_role, label: "Vai trò chính trong dự án Solar", type: radio, options: ["Tổng thầu EPC (Engineering, Procurement, Construction)", "Chủ đầu tư / Doanh nghiệp phát triển dự án (IPP)", "Nhà thầu phụ thi công cơ điện (BOP / MEP)", "Đơn vị Quản lý vận hành & Bảo dưỡng (O&M)", "Đơn vị Tư vấn thiết kế & Giám sát"], required: true, default: "Tổng thầu EPC (Engineering, Procurement, Construction)" }
+      - { key: technology_mix, label: "Phân khúc công nghệ thực hiện", type: multiselect, options: ["Điện mặt trời áp mái C&I (Nhà xưởng, KCN)", "Điện mặt trời mặt đất (Utility Solar Farm)", "Điện mặt trời nổi trên hồ (Floating Solar)", "Hệ thống lưu trữ năng lượng (BESS)", "Điện mặt trời mái nhà dân dụng / Hộ gia đình", "Điện mặt trời kết hợp nông nghiệp (Agri-PV)"], required: true, default: ["Điện mặt trời áp mái C&I (Nhà xưởng, KCN)"] }
+
+  - id: solar_segment
+    title: "Quy mô & Cơ chế chính sách áp dụng"
+    body: "Lựa chọn cơ chế chính sách pháp lý để cấu hình sẵn quy trình kiểm tra và phê duyệt tự động."
+    fields:
+      - { key: regulatory_framework, label: "Cơ chế chính sách chủ đạo", type: radio, options: ["Nghị định 135/2024/NĐ-CP (ĐMT tự sản tự tiêu, bán dư tối đa 20% hoặc Zero-Export)", "Nghị định 80/2024/NĐ-CP (Cơ chế mua bán điện trực tiếp DPPA qua lưới hoặc đường dây riêng)", "Điện mặt trời mái nhà công sở, cơ quan hành chính theo NĐ 135", "Dự án nguồn điện thương mại theo Quy hoạch Điện VIII"], required: true, default: "Nghị định 135/2024/NĐ-CP (ĐMT tự sản tự tiêu, bán dư tối đa 20% hoặc Zero-Export)" }
+      - { key: typical_project_capacity, label: "Quy mô công suất dự án thông thường", type: select, options: ["Dưới 100 kWp (Hộ gia đình / Văn phòng nhỏ)", "100 kWp - 1.000 kWp (Nhà xưởng SME, kho bãi)", "1 MWp - 5 MWp (Nhà xưởng lớn trong KCN)", "5 MWp - 20 MWp (Tổ hợp KCN / Cụm công nghiệp)", "Trên 20 MWp (Solar Farm đấu nối lưới trung/cao thế)"], required: true, default: "1 MWp - 5 MWp (Nhà xưởng lớn trong KCN)" }
+      - { key: zero_export_enabled, label: "Áp dụng thiết bị chống phát ngược (Zero-Export Controller)", type: checkbox, default: true }
+      - { key: bess_enabled, label: "Tích hợp hệ thống lưu trữ điện BESS (Lithium LFP)", type: checkbox, default: false }
+
+  - id: technical_standards
+    title: "Tiêu chuẩn kỹ thuật & An toàn PCCC"
+    body: "Kích hoạt các bộ tiêu chuẩn kiểm tra chất lượng bản vẽ, bảng khối lượng BOQ và hồ sơ nghiệm thu kỹ thuật."
+    fields:
+      - { key: enable_tcvn_11855, label: "TCVN 11855-1:2017 / IEC 62446 - Nghiệm thu, đo kiểm I-V & vận hành PV", type: checkbox, default: true }
+      - { key: enable_qcvn_06_pccc, label: "QCVN 06:2022/BXD & Văn bản 3288/C07-P4 (Quy chuẩn PCCC ĐMT mái nhà, hành lang 1.5m, Rapid Shutdown)", type: checkbox, default: true }
+      - { key: enable_qcvn_02_wind, label: "QCVN 02:2022/BXD - Tính toán tải trọng gió bão và kết cấu khung ray đỡ tấm pin", type: checkbox, default: true }
+      - { key: enable_evn_grid_code, label: "Thông tư 39/2015 & TT 30/2019/TT-BCT - Tiêu chuẩn đấu nối lưới điện phân phối EVN (THD < 5%, cos phi >= 0.9)", type: checkbox, default: true }
+      - { key: enable_vn_cost_norms, label: "Thông tư 11/2021/TT-BXD & TT 12/2021/TT-BXD - Cấu trúc dự toán xây lắp và định mức chi phí Việt Nam", type: checkbox, default: true }
+
+  - id: grid_and_evn
+    title: "Cấp điện áp & Tổng công ty Điện lực"
+    body: "Xác định lưới điện đấu nối thuộc địa bàn EVN để áp dụng đúng mẫu hồ sơ thỏa thuận đấu nối và đo đếm ranh giới."
+    fields:
+      - { key: evn_corporation, label: "Tổng công ty Điện lực quản lý địa bàn", type: select, options: ["EVN SPC (Tổng công ty Điện lực Miền Nam)", "EVN CPC (Tổng công ty Điện lực Miền Trung)", "EVN NPC (Tổng công ty Điện lực Miền Bắc)", "EVN HCMC (Tổng công ty Điện lực TP. Hồ Chí Minh)", "EVN HANOI (Tổng công ty Điện lực TP. Hà Nội)"], required: true, default: "EVN SPC (Tổng công ty Điện lực Miền Nam)" }
+      - { key: connection_voltage, label: "Cấp điện áp đấu nối", type: select, options: ["Hạ thế 0.4 kV (3 pha 380V)", "Trung thế 22 kV", "Trung thế 35 kV", "Cao thế 110 kV", "Truyền tải 220 kV"], required: true, default: "Trung thế 22 kV" }
+      - { key: revenue_metering_type, label: "Hệ thống đo đếm điện năng ranh giới", type: select, options: ["Công tơ 3 biểu giá 1 chiều (Zero-Export)", "Công tơ 3 biểu giá 2 chiều (Bi-directional Class 0.5S/0.2S)", "Hệ thống SCADA/RTU truyền thông tin về Trung tâm Điều độ A0/A1/A2/A3"], required: true, default: "Công tơ 3 biểu giá 1 chiều (Zero-Export)" }
+
+  - id: cost_and_currency
+    title: "Cấu hình Chi phí & Thuế"
+    body: "Thiết lập đơn vị tiền tệ, mẫu phân bổ chi phí dự toán (Direct, Indirect, Overhead, Profit, VAT) theo quy định Việt Nam."
+    fields:
+      - { key: default_currency, label: "Đơn vị tiền tệ chính", type: select, options: ["VND (Đồng Việt Nam - ₫)", "USD (Đô la Mỹ - $)"], required: true, default: "VND (Đồng Việt Nam - ₫)" }
+      - { key: vat_rate, label: "Thuế suất GTGT (VAT)", type: select, options: ["8% (Áp dụng theo Nghị định giảm thuế của Chính phủ)", "10% (Thuế suất chuẩn theo Luật thuế GTGT)"], required: true, default: "8% (Áp dụng theo Nghị định giảm thuế của Chính phủ)" }
+      - { key: preload_vn_catalog, label: "Tải danh mục định mức & giá vật tư Solar Việt Nam (DDC CWICR VN Solar)", type: checkbox, default: true }
+
+  - id: review
+    title: "Hoàn tất & Khởi tạo dự án"
+    body: "Hệ thống đã sẵn sàng với bộ mẫu dự toán Solar C&I 3.5 MWp tại KCN VSIP Bình Dương và Solar Farm 50 MWp tại Ninh Thuận, bộ quy chuẩn kiểm tra TCVN 11855, QCVN 06 PCCC, EVN Grid Code và định mức VNĐ. Bạn có thể tùy chỉnh lại bất kỳ lúc nào trong phần Cài đặt."
+

@@ -1,0 +1,24 @@
+{
+  "rule_pack_id": "vietnam_evn_grid_compliance",
+  "name": "Vietnam EVN Grid Code Compliance — Circular 39/2015/TT-BCT & Circular 30/2019/TT-BCT",
+  "standard": "Circular 39/2015/TT-BCT (Distribution Power System Regulation) + Circular 30/2019/TT-BCT (Amending Distribution Grid Code) + Circular 25/2016/TT-BCT (Transmission Grid Code) + EVN Technical Connection Guidelines",
+  "jurisdiction": "VN",
+  "description": "Grid code compliance and technical connection verification for solar power plants and distributed solar connecting to EVN distribution networks (22kV / 35kV) and transmission grids (110kV / 220kV). Validates power quality metrics: steady-state frequency operating range (49.5 Hz – 50.5 Hz normal, 47.5 Hz – 52.0 Hz emergency ride-through); voltage variation limits (±5% at point of common coupling); total harmonic distortion (THD ≤ 5% for voltage, individual harmonics compliant with IEC 61000-3-6); power factor control range (cos phi ≥ 0.90 leading/lagging at POI); anti-islanding protection per IEEE 1547 with trip time < 2.0 seconds; relay protection settings (overcurrent 50/51, under/over-voltage 27/59, under/over-frequency 81U/81O, auto-reclose 79); SCADA/RTU integration using IEC 60870-5-104 protocol for remote dispatch by EVN Regional Load Dispatch Centers (A1/A2/A3/A0); Zero-Export controller with class 0.5S smart energy meter.",
+  "enables_rule_ids": [],
+  "planned_not_built_rule_ids": [
+    "vn_grid.evn_connection_agreement_signed",
+    "vn_grid.steady_state_frequency_tolerance_band",
+    "vn_grid.voltage_variation_within_5_percent",
+    "vn_grid.total_harmonic_distortion_thd_under_5_pct",
+    "vn_grid.power_factor_cos_phi_above_0_9",
+    "vn_grid.anti_islanding_trip_time_under_2s",
+    "vn_grid.protection_relay_settings_approved_by_evn",
+    "vn_grid.fault_ride_through_frt_lvrt_hvrt_curve_documented",
+    "vn_grid.scada_rtu_iec104_telemetry_integrated",
+    "vn_grid.zero_export_controller_installed_if_self_consumption",
+    "vn_grid.revenue_metering_3_tariff_bi_directional_class_0_2s",
+    "vn_grid.evn_witness_testing_cod_certificate_attached"
+  ],
+  "planned_not_built_note": "Planned, not built. The engine defines none of the ids in planned_not_built_rule_ids, so switching this document on does not run them. They record what this document is meant to check once the rules are written; move an id back to enables_rule_ids on the day its rule lands, not before."
+}
+

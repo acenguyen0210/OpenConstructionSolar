@@ -1,0 +1,57 @@
+================================================================================
+          HƯỚNG DẪN CÀI ĐẶT & SỬ DỤNG BỘ ADD-IN SITEMASTER PRO (2026)
+        Tích hợp: Hồ Sơ ITP Solar PV + Quản Lý Văn Bản + Tiện Ích MiniTool
+================================================================================
+
+I. THÔNG TIN BẢN QUYỀN & TÁC GIẢ:
+   • Tác giả: Nguyễn Đức Thắng
+   • Email: ducthang.nguyen0210@gmail.com
+   • Hotline / Zalo: 0962.228.783
+   • Phiên bản: SiteMaster Pro Suite v3.0 (2026)
+
+--------------------------------------------------------------------------------
+II. HƯỚNG DẪN CÀI ĐẶT:
+
+► CÁCH 1: CÀI ĐẶT TỰ ĐỘNG 1-CHẠM (KHUYÊN DÙNG - CỰC NHANH):
+   1. Nhấp đúp chuột vào tệp: [CAI_DAT_TU_DONG_1_CLICK.bat]
+   2. Chương trình sẽ tự động:
+      - Sao chép toàn bộ các tệp Add-in và tài nguyên động cơ vào máy tính.
+      - Tự động kích hoạt hiển thị 3 tab trên thanh công cụ Excel.
+   3. Mở Microsoft Excel lên là dùng được ngay lập tức!
+
+► CÁCH 2: CÀI ĐẶT THỦ CÔNG (Nếu máy tính công ty chặn chạy file .bat):
+   1. Nhấn tổ hợp phím [Windows + R], dán dòng sau và bấm Enter:
+      %appdata%\Microsoft\AddIns
+   2. Sao chép toàn bộ các tệp trong thư mục [01. ADDIN_CORE] vào thư mục vừa mở
+      (gồm: SiteMaster.xlam, QLVB_MiniTool.xlam và cả thư mục MiniTool).
+   3. Mở Excel -> Vào File -> Options -> Add-ins -> Mục Manage chọn [Excel Add-ins] -> Bấm [Go...]
+   4. Tích chọn vào 2 ô: [SiteMaster] và [QLVB_MiniTool] rồi bấm OK.
+
+--------------------------------------------------------------------------------
+III. DANH SÁCH 3 TAB CÔNG CỤ TRÊN THANH RIBBON:
+
+1. TAB [SITEMASTER PRO]:
+   • Tạo Dự Án: Mở nhanh Mẫu ITP Solar PV hoặc Mẫu Quản Lý Văn Bản.
+   • Cài Đặt Dự Án: Thiết lập Chủ đầu tư, Tư vấn giám sát, Nhà thầu, Kỹ sư.
+   • Cập Nhật Logo: Đặt logo bám ô tự động cho toàn bộ biên bản.
+   • Bộ Đồng Bộ ITP: Chuyển hạng mục (Trước / Tiếp), lọc dòng kiểm tra.
+   • Phụ Lục Ảnh: Chèn ảnh đa năng, tự dàn trang A4, chống méo ảnh.
+   • Xuất PDF: Xuất lẻ từng sheet hoặc trọn bộ 6 biên bản đánh số thứ tự.
+   • Tiện Ích: Đổi đơn vị kỹ thuật, dịch song ngữ, sửa font.
+
+2. TAB [QLVB]:
+   • Quản lý văn bản đi/đến trên Excel.
+   • Tìm kiếm nhanh văn bản, lọc theo loại, nguồn văn bản, đầu mối xử lý.
+   • Đính kèm file Scan, mở trực tiếp file đính kèm từ bảng tính.
+
+3. TAB [MiniTool]:
+   • Tính Toán Nhanh: SUM trên/dưới vùng Select, SUBTOTAL nhanh.
+   • Định Dạng Văn Bản: Tạo nhanh cột ABC, đổi chữ HOA, chữ thường, in hoa đầu từ.
+   • AutoFilter Nâng Cao: Lọc tự động sau đó xem trước, in hoặc xuất ra PDF/Excel.
+   • Quản Lý Sheet: Ẩn/hiện dòng cột, khóa/mở khóa toàn bộ sheet.
+   • Tiện Ích Đồ Họa: Tạo mã QR Code động, Camera chụp bảng biểu, so sánh 2 cột.
+
+--------------------------------------------------------------------------------
+IV. THƯ MỤC BIỂU MẪU ĐI KÈM [02. BIEU_MAU_TEMPLATES]:
+   • Template_ITP_Pro.xlsx : Mẫu hồ sơ ITP Solar PV chuẩn (file sạch không macro).
+   • Template_QLVB.xlsx     : Mẫu cơ sở dữ liệu Quản lý Văn bản chuẩn.
