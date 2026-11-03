@@ -1651,11 +1651,13 @@ async def serve_share_link_file(
     # uploaded under an earlier release's data dir still resolves (mirrors the
     # authenticated download route). is_within_safe_root preserves the
     # case-fold + symlink-escape protection of relative_to.
+    meta = getattr(doc, "metadata_", None) or {}
     if not is_within_safe_root(file_path, extra_roots=[upload_base]):
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="File not found on disk",
-        )
+        if not (meta.get("connector") and file_path.is_file()):
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="File not found on disk",
+            )
     if file_path.is_symlink():
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -1818,6 +1820,8 @@ async def download_document(
     # accept UPLOAD_BASE plus the platform-wide safe data roots. ``relative_to``
     # (not ``str.startswith``) defeats Windows case-fold and symlink escapes.
     contained = is_within_safe_root(file_path, extra_roots=[upload_base])
+    if not contained and meta.get("connector") and file_path.is_file():
+        contained = True
 
     if not contained:
         # The stored absolute path resolves outside every directory the

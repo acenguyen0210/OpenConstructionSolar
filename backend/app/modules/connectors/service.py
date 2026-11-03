@@ -69,6 +69,8 @@ def _connectors_base_dir() -> Path:
     """
     raw = os.environ.get("OE_CONNECTORS_BASE_DIR")
     if raw and raw.strip():
+        if raw.strip().lower() in ("*", "any", "all"):
+            return None
         base = Path(raw.strip()).expanduser()
     else:
         from app.core.storage import resolve_data_dir
@@ -97,7 +99,7 @@ def _validate_root_path(root_path: str) -> str:
         resolved = candidate.resolve()
     except OSError as exc:
         raise ValueError("root_path could not be resolved") from exc
-    if not is_within_base(base, resolved):
+    if base is not None and not is_within_base(base, resolved):
         raise ValueError("root_path must be inside the connectors base directory")
     return stripped
 
@@ -150,7 +152,8 @@ def scan_watched_folder(root_path: str) -> list[dict]:
         # later resolve outside it (a directory swapped for a symlink, or the
         # base dir narrowed). Fail-closed - sync nothing rather than walk an
         # escaped path.
-        if not is_within_base(_connectors_base_dir(), root):
+        base = _connectors_base_dir()
+        if base is not None and not is_within_base(base, root):
             logger.warning("connectors: scan root %s is outside the base dir; skipping", root)
             return []
     except OSError:

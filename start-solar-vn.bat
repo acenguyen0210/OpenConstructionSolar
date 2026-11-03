@@ -12,6 +12,7 @@ echo [1/3] Setting Vietnam Solar environment...
 set OE_PACK=vietnam-solar
 set OE_LOCALE=vi
 set OE_DEFAULT_CURRENCY=VND
+set OE_CONNECTORS_BASE_DIR=*
 set PYTHONPATH=backend
 
 if exist ".venv\Scripts\openconstructionerp.exe" (

@@ -1785,7 +1785,7 @@ def safe_data_roots() -> list[Path]:
     home = Path.home()
     _add(home / ".openestimate")
     _add(home / ".openestimator")
-    for env_name in ("OE_DATA_DIR", "DATA_DIR", "OE_CLI_DATA_DIR"):
+    for env_name in ("OE_DATA_DIR", "DATA_DIR", "OE_CLI_DATA_DIR", "OE_CONNECTORS_BASE_DIR"):
         value = os.environ.get(env_name)
         if value:
             _add(Path(value))
