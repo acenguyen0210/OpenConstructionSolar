@@ -13,10 +13,11 @@ import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowRight, FolderPlus, FolderSync, Inbox, Search } from 'lucide-react';
+import { ArrowRight, CheckCircle2, FolderPlus, FolderSync, Inbox, Search, ShieldAlert } from 'lucide-react';
 
 import { Card, EmptyState, SkeletonTable, DismissibleInfo, IntroRichText } from '@/shared/ui';
 import { getErrorMessage } from '@/shared/lib/api';
+import { useAuthStore } from '@/stores/useAuthStore';
 import { useProjectContextStore } from '@/stores/useProjectContextStore';
 import { listConnectorSources, createConnectorSource, syncConnectorSource } from './api';
 import { SourceCard } from './SourceCard';
@@ -47,6 +48,9 @@ export function ConnectorsPage() {
   const activeProjectId = useProjectContextStore((s) => s.activeProjectId);
   const projectId = routeProjectId ?? activeProjectId ?? '';
   const inboundPath = routeProjectId ? `/projects/${routeProjectId}/inbound` : '/inbound';
+
+  const userRole = useAuthStore((s) => s.userRole);
+  const isAdminOrManager = !userRole || userRole === 'admin' || userRole === 'manager' || userRole === 'owner' || userRole === 'superuser';
 
   const [name, setName] = useState('');
   const [rootPath, setRootPath] = useState('');
@@ -163,7 +167,7 @@ export function ConnectorsPage() {
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder={t('connectors.name_ph', { defaultValue: 'Site drop folder' })}
+              placeholder="VD: Google Drive - Hồ sơ Solar"
               className="rounded-md border border-border-light bg-surface-primary px-2 py-1 text-sm text-content-primary"
             />
           </label>
@@ -172,31 +176,78 @@ export function ConnectorsPage() {
             <input
               value={rootPath}
               onChange={(e) => setRootPath(e.target.value)}
-              placeholder={t('connectors.root_path_ph', { defaultValue: '/data/inbound/site-a' })}
+              placeholder="VD: C:\Users\Admin\OneDrive hoặc G:\My Drive"
               className="rounded-md border border-border-light bg-surface-primary px-2 py-1 text-sm text-content-primary"
             />
           </label>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2 text-xs text-content-tertiary">
+          <span>Gợi ý mẫu:</span>
+          <button
+            type="button"
+            onClick={() => {
+              if (!name) setName('OneDrive Dự án');
+              setRootPath('C:\\Users\\Admin\\OneDrive');
+            }}
+            className="rounded border border-border-light bg-surface-secondary px-2 py-0.5 hover:bg-surface-tertiary text-content-secondary text-2xs transition-colors"
+          >
+            OneDrive (C:\Users\Admin\OneDrive)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!name) setName('Google Drive');
+              setRootPath('G:\\My Drive');
+            }}
+            className="rounded border border-border-light bg-surface-secondary px-2 py-0.5 hover:bg-surface-tertiary text-content-secondary text-2xs transition-colors"
+          >
+            Google Drive (G:\My Drive)
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!name) setName('Thư mục nội bộ');
+              setRootPath('C:\\Users\\Admin\\.openestimate\\connectors_watch');
+            }}
+            className="rounded border border-border-light bg-surface-secondary px-2 py-0.5 hover:bg-surface-tertiary text-content-secondary text-2xs transition-colors"
+          >
+            Mặc định (.openestimate\connectors_watch)
+          </button>
         </div>
 
         {createMutation.isError && (
           <p className="text-sm text-semantic-error">{getErrorMessage(createMutation.error)}</p>
         )}
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3 pt-1">
           <button
             type="button"
             disabled={!canAdd || createMutation.isPending}
             onClick={() => createMutation.mutate()}
-            className="inline-flex items-center gap-1.5 rounded-md bg-oe-blue px-3 py-1.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-md bg-oe-blue px-3 py-1.5 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 shadow-sm transition-all"
           >
             <FolderPlus className="h-4 w-4" />
             {t('connectors.add_source', { defaultValue: 'Add connector' })}
           </button>
-          <span className="text-xs text-content-tertiary">
-            {t('connectors.admin_hint', {
-              defaultValue: 'Registering and syncing a connector require an admin role.',
-            })}
-          </span>
+
+          {isAdminOrManager ? (
+            <span className="inline-flex items-center gap-1 rounded bg-semantic-success-bg/30 px-2 py-0.5 text-xs text-semantic-success font-medium">
+              <CheckCircle2 className="h-3.5 w-3.5" />
+              Quyền quản trị hợp lệ ({userRole || 'admin'})
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 text-xs text-semantic-warning">
+              <ShieldAlert className="h-3.5 w-3.5" />
+              Yêu cầu vai trò quản trị viên
+            </span>
+          )}
+
+          {!canAdd && (
+            <span className="text-xs text-content-tertiary italic">
+              (Nhập Tên và Đường dẫn để bật nút Thêm)
+            </span>
+          )}
         </div>
       </Card>
 

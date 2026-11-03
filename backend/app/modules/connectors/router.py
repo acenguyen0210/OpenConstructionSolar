@@ -33,7 +33,7 @@ router = APIRouter(tags=["connectors"])
     "/sources/",
     response_model=ConnectorSourceOut,
     status_code=status.HTTP_201_CREATED,
-    dependencies=[Depends(RequireRole("admin"))],
+    dependencies=[Depends(RequireRole("manager"))],
 )
 async def create_source(
     payload: ConnectorSourceCreate,
@@ -41,7 +41,7 @@ async def create_source(
     session: SessionDep,
     project_id: uuid.UUID = Query(..., description="Project the source belongs to"),
 ) -> ConnectorSourceOut:
-    """Register an inbound document source for a project (admin only)."""
+    """Register an inbound document source for a project (admin or manager)."""
     await verify_project_access(project_id, user_id, session)
     service = ConnectorService(session)
     try:
@@ -95,14 +95,14 @@ async def get_source(
 @router.post(
     "/sources/{source_id}/sync",
     response_model=SyncResultOut,
-    dependencies=[Depends(RequireRole("admin"))],
+    dependencies=[Depends(RequireRole("manager"))],
 )
 async def sync_source(
     source_id: uuid.UUID,
     user_id: CurrentUserId,
     session: SessionDep,
 ) -> SyncResultOut:
-    """Scan the source's folder and import each new file as a document (admin only)."""
+    """Scan the source's folder and import each new file as a document (admin or manager)."""
     service = ConnectorService(session)
     source = await service.get_source(source_id)
     if source is None:
