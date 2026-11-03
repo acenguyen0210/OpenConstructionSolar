@@ -4929,7 +4929,7 @@ export function OnboardingWizard() {
   // and re-translated on a language switch in step 1.
   const brandName = useBrandingStore((s) => (s.companyName.trim() ? s.companyName.trim() : null));
   useEffect(() => {
-    document.title = `${t('onboarding.page_title', { defaultValue: 'Getting started' })} | ${brandName ?? 'OpenConstructionERP'}`;
+    document.title = `${t('onboarding.page_title', { defaultValue: 'Getting started' })} | ${brandName ?? 'OpenConstructionSolar'}`;
   }, [t, i18nInstance.language, brandName]);
   const [restored] = useState(() => loadWizardProgress(TOTAL_STEPS));
   const [step, setStep] = useState(() => restored?.step ?? 0);

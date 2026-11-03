@@ -594,7 +594,7 @@ export function LoginPageNext() {
                   className="mt-2.5 text-xl font-medium tracking-[-0.02em] text-content-primary dark:text-white"
                   style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                 >
-                  Open<span className="text-oe-blue">Construction</span><span className="text-content-quaternary">ERP</span>
+                  Open<span className="text-oe-blue">Construction</span><span className="text-content-quaternary">Solar</span>
                 </span>
               </div>
 
@@ -605,7 +605,7 @@ export function LoginPageNext() {
                   className="text-[15px] font-medium tracking-[-0.02em] text-content-primary dark:text-white"
                   style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif" }}
                 >
-                  Open<span className="text-oe-blue">Construction</span><span className="text-content-quaternary dark:text-white/50">ERP</span>
+                  Open<span className="text-oe-blue">Construction</span><span className="text-content-quaternary dark:text-white/50">Solar</span>
                 </span>
               </div>
 

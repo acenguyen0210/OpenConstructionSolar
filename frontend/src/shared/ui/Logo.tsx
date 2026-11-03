@@ -146,7 +146,7 @@ export function LogoWithText({ size = 'md', animate, showVersion = true, classNa
         style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", letterSpacing: '-0.02em' }}
       >
         Open<span className="text-oe-blue">Construction</span>
-        {showVersion && <span className="text-content-quaternary">ERP</span>}
+        {showVersion && <span className="text-content-quaternary">Solar</span>}
       </span>
     </div>
   );

@@ -47,7 +47,7 @@ export function PortalBrandHeader() {
         by{' '}
         <span className="font-semibold tracking-tight">
           Open<span className="text-oe-blue/80">Construction</span>
-          <span className="text-content-quaternary">ERP</span>
+          <span className="text-content-quaternary">Solar</span>
         </span>
       </span>
     </header>

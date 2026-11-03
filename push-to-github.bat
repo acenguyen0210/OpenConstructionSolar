@@ -1,130 +1,143 @@
 @echo off
-title OpenConstructionSolar - Push to GitHub
+chcp 65001 >nul
+title OpenConstructionSolar - Day du lieu len GitHub
 cd /d "%~dp0"
 
 echo ==============================================================================
-echo    OpenConstructionSolar - Day du lieu len GitHub
-echo    Repository: https://github.com/acenguyen0210/OpenConstructionSolar.git
+echo    OpenConstructionSolar - Dong bo va Day du lieu len GitHub
+echo    Kho luu tru: https://github.com/acenguyen0210/OpenConstructionSolar.git
 echo ==============================================================================
 echo.
 
 :: 1. Kiem tra Git
 where git >nul 2>&1
-if %ERRORLEVEL% NEQ 0 (
-    echo [LOI] Khong tim thay Git trong he thong PATH.
-    echo Vui long cai dat Git tu https://git-scm.com/download/win va thu lai.
-    echo.
-    pause
-    exit /b 1
-)
+if %ERRORLEVEL% NEQ 0 goto :no_git
 
 :: 2. Cau hinh remote origin
-echo [1/4] Kiem tra cau hinh remote origin...
+echo [1/4] Kiem tra ket noi GitHub repository...
 git remote get-url origin >nul 2>&1
-if %ERRORLEVEL% EQU 0 (
-    git remote set-url origin https://github.com/acenguyen0210/OpenConstructionSolar.git
-) else (
-    git remote add origin https://github.com/acenguyen0210/OpenConstructionSolar.git
-)
-echo       - Remote origin: https://github.com/acenguyen0210/OpenConstructionSolar.git
+if %ERRORLEVEL% EQU 0 goto :origin_ok
+git remote add origin https://github.com/acenguyen0210/OpenConstructionSolar.git
+goto :origin_done
 
-:: Cau hinh danh tinh Git neu chua co
+:origin_ok
+git remote set-url origin https://github.com/acenguyen0210/OpenConstructionSolar.git
+
+:origin_done
+echo       - Remote: https://github.com/acenguyen0210/OpenConstructionSolar.git
+
+:: Cau hinh danh tinh Git co ban neu chua co
 git config user.name >nul 2>&1
 if %ERRORLEVEL% NEQ 0 git config user.name "acenguyen0210"
 git config user.email >nul 2>&1
 if %ERRORLEVEL% NEQ 0 git config user.email "acenguyen0210@gmail.com"
 
-:: 3. Kiem tra nhanh
+:: Xac dinh nhanh hien tai
+set CURRENT_BRANCH=main
 for /f "tokens=*" %%i in ('git rev-parse --abbrev-ref HEAD 2^>nul') do set CURRENT_BRANCH=%%i
-if "%CURRENT_BRANCH%"=="" set CURRENT_BRANCH=main
-echo       - Nhanh lam viec: %CURRENT_BRANCH%
+echo       - Nhanh hien tai: %CURRENT_BRANCH%
 echo.
 
-:: 4. Commit cac thay doi neu co
-echo [2/4] Kiem tra va commit cac thay doi moi nhat...
+:: 3. Them file va commit
+echo [2/4] Kiem tra va dong goi cac thay doi moi nhat...
 git add -A
-git commit -m "feat: Vietnam Solar EPC Edition - 12 nhom ho so SOP va catalog gia Solar VN" 2>nul
-echo       - Code da duoc commit san sang.
+git commit -m "feat(solar): update OpenConstructionSolar - branding and configs" 2>nul
+echo       - Cac thay doi da duoc dong goi vao commit san sang.
 echo.
 
-:: 5. Lua chon phuong thuc day du lieu
+:: 4. Lua chon phuong thuc day du lieu
 echo [3/4] Chon phuong thuc day du lieu len GitHub:
-echo       [1] Day truc tiep (Dung trinh duyet / Git Credential Manager)
-echo       [2] Day bang GitHub Personal Access Token (Khuyen dung neu gap loi dang nhap)
-echo       [3] Day kho sach Clean (~180MB ma khong kem 4GB lich su cu cua ban goc)
+echo       [1] Day truc tiep (Xac thuc qua trinh duyet / Git Credential Manager)
+echo       [2] Day bang GitHub Personal Access Token (Khuyen dung neu gap loi)
+echo       [3] Day sach kho Solar toi uu (~180MB)
 echo.
-set /p PUSH_CHOICE="Chon [1, 2 hoac 3] (mac dinh la 1): "
+set PUSH_METHOD=1
+set /p PUSH_METHOD="Nhap lua chon [1, 2 hoac 3] (mac dinh la 1): "
 
-if "%PUSH_CHOICE%"=="2" goto :push_with_token
-if "%PUSH_CHOICE%"=="3" goto :clean_push
+if "%PUSH_METHOD%"=="2" goto :push_token
+if "%PUSH_METHOD%"=="3" goto :push_clean
 
-:push_direct
+:push_normal
 echo.
-echo [4/4] Dang day du lieu len GitHub (Nhanh %CURRENT_BRANCH%)...
-echo       (Neu trinh duyet mo cua so dang nhap, vui long xac thuc tai khoan)...
+echo [4/4] Dang day du lieu len GitHub tren nhanh %CURRENT_BRANCH%...
+echo       Neu trinh duyet bat cua so dang nhap, quy khach vui long xac thuc.
 echo.
 git push -u origin %CURRENT_BRANCH%
-if %ERRORLEVEL% EQU 0 goto :success
+if %ERRORLEVEL% EQU 0 goto :push_success
 goto :push_failed
 
-:push_with_token
+:push_token
 echo.
 echo ==============================================================================
-echo    HUONG DAN LAY GITHUB TOKEN (PERSONAL ACCESS TOKEN):
-echo    1. Truy cap: https://github.com/settings/tokens
-echo    2. Bam 'Generate new token' -^> 'Generate new token (classic)'
-echo    3. Dat ten (Note: Solar), tich chon o [x] repo (Full control)
-echo    4. Cuon xuong duoi cung bam 'Generate token' va COPY doan ma bat dau bang 'ghp_...'
+echo    HUONG DAN LAY GITHUB PERSONAL ACCESS TOKEN:
+echo    1. Mo trinh duyet vao: https://github.com/settings/tokens
+echo    2. Chon Generate new token -^> Generate new token (classic)
+echo    3. Dat ten tuy y, tich chon o [repo] de cap quyen ghi
+echo    4. Nhan Generate token va sao chep ma bat dau bang ghp_...
 echo ==============================================================================
 echo.
-set /p GH_TOKEN="Dan GitHub Token (ghp_...) vao day: "
-if "%GH_TOKEN%"=="" (
-    echo [LOI] Token khong duoc de trong.
-    goto :end
-)
+set GH_TOKEN=
+set /p GH_TOKEN="Dan ma Token vao day va nhan Enter: "
+if "%GH_TOKEN%"=="" goto :token_empty
 echo.
 echo [4/4] Dang day du lieu len GitHub bang Token...
 git push -u https://%GH_TOKEN%@github.com/acenguyen0210/OpenConstructionSolar.git %CURRENT_BRANCH%
-if %ERRORLEVEL% EQU 0 goto :success
+if %ERRORLEVEL% EQU 0 goto :push_success
 goto :push_failed
 
-:clean_push
+:push_clean
 echo.
-echo [4/4] Dang tao nhanh moi gon nhe (chi chua ma nguon Solar hien tai ~180MB)...
+echo [4/4] Dang tao nhanh phat hanh toi uu gon nhe...
 git checkout --orphan solar-deploy 2>nul
 git add -A
-git commit -m "feat: OpenConstructionSolar - Vietnam Solar EPC Edition (12 nhom ho so SOP, catalog gia Solar VN)" 2>nul
+git commit -m "feat: OpenConstructionSolar - Vietnam Solar EPC Edition" 2>nul
 echo.
-set /p CLEAN_TOKEN="Nhap GitHub Token (hoac nhan Enter de dung xac thuc trinh duyet): "
-if "%CLEAN_TOKEN%"=="" (
-    git push -u origin solar-deploy:main --force
-) else (
-    git push -u https://%CLEAN_TOKEN%@github.com/acenguyen0210/OpenConstructionSolar.git solar-deploy:main --force
-)
-set PUSH_RES=%ERRORLEVEL%
+set TOKEN_CLEAN=
+set /p TOKEN_CLEAN="Nhap Token GitHub (hoac nhan Enter de dung trinh duyet): "
+if "%TOKEN_CLEAN%"=="" goto :clean_direct
+git push -u https://%TOKEN_CLEAN%@github.com/acenguyen0210/OpenConstructionSolar.git solar-deploy:main --force
+goto :clean_finish
+
+:clean_direct
+git push -u origin solar-deploy:main --force
+
+:clean_finish
+set RES_CLEAN=%ERRORLEVEL%
 git checkout %CURRENT_BRANCH% 2>nul
 git branch -D solar-deploy 2>nul
-if %PUSH_RES% EQU 0 goto :success
+if %RES_CLEAN% EQU 0 goto :push_success
 goto :push_failed
 
-:success
+:push_success
 echo.
 echo ==============================================================================
-echo    DA DAY DU LIEU LEN GITHUB THANH CONG!
-echo    Xem truc tiep tai: https://github.com/acenguyen0210/OpenConstructionSolar
+echo    [THANH CONG] DA DAY DU LIEU LEN GITHUB!
+echo    Xem kho tai: https://github.com/acenguyen0210/OpenConstructionSolar
 echo ==============================================================================
-goto :end
+goto :finish
 
 :push_failed
 echo.
 echo ==============================================================================
-echo    [CANH BAO] Lenh git push gap su co.
-echo    Nguyen nhan thuong gap nhat:
-echo      1. GitHub khong chap nhan mat khau tai khoan, can dung Personal Access Token.
-echo         -^> Hay chay lai file bat nay va chon [2] de nhap Token.
-echo      2. Neu kho chua lich su qua nang (4GB), hay chon [3] de day ban sach (~180MB).
+echo    [THONG BAO] Khong the day du lieu len GitHub.
+echo.
+echo    Nguyen nhan va huong xu ly:
+echo    1. Kho GitHub chua cap quyen ghi hoac chua dang nhap:
+echo       -^> Hay chay lai file .bat nay va chon phuong an [2] de dung Token.
+echo    2. Neu kho GitHub tren web da co commit tu truoc:
+echo       -^> Chay lenh: git push -u origin %CURRENT_BRANCH% --force
 echo ==============================================================================
+goto :finish
 
-:end
+:token_empty
+echo [LOI] Token khong duoc de trong!
+goto :finish
+
+:no_git
+echo [LOI] Khong tim thay Git trong may tinh.
+echo Vui long cai dat Git tai https://git-scm.com/download/win va thu lai.
+goto :finish
+
+:finish
 echo.
 pause

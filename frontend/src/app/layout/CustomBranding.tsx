@@ -201,7 +201,7 @@ export function CustomBranding({ iconified }: CustomBrandingProps) {
                 by{' '}
                 <span className="font-semibold tracking-tight">
                   Open<span className="text-oe-blue/60">Construction</span>
-                  <span className="text-content-quaternary">ERP</span>
+                  <span className="text-content-quaternary">Solar</span>
                 </span>
               </span>
             </button>
@@ -211,7 +211,7 @@ export function CustomBranding({ iconified }: CustomBrandingProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:opacity-80 transition-opacity"
-              title="OpenConstructionERP"
+              title="OpenConstructionSolar"
             >
               {/* Compact wordmark — 13px text + smaller gap to fit
                   the 248px sidebar minus the 32px edit button without
@@ -226,7 +226,7 @@ export function CustomBranding({ iconified }: CustomBrandingProps) {
                 }}
               >
                 Open<span className="text-oe-blue">Construction</span>
-                <span className="text-content-quaternary">ERP</span>
+                <span className="text-content-quaternary">Solar</span>
               </span>
             </a>
           )}

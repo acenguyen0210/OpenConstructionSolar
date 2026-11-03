@@ -789,7 +789,7 @@ export function LoginPage() {
                     by{' '}
                     <span className="font-semibold tracking-tight">
                       Open<span className="text-oe-blue/80">Construction</span>
-                      <span className="text-content-quaternary">ERP</span>
+                      <span className="text-content-quaternary">Solar</span>
                     </span>
                   </span>
                 </div>
@@ -800,7 +800,7 @@ export function LoginPage() {
                     className="text-2xl font-medium text-content-primary whitespace-nowrap"
                     style={{ fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", letterSpacing: '-0.02em' }}
                   >
-                    Open<span className="text-oe-blue">Construction</span><span className="text-content-quaternary">ERP</span>
+                    Open<span className="text-oe-blue">Construction</span><span className="text-content-quaternary">Solar</span>
                   </span>
                 </div>
               )}
