@@ -790,6 +790,7 @@ async def _post_openai_compat(
         "model": model or config["model"],
         "max_tokens": max_tokens,
         "messages": messages,
+        "stream": False,
     }
     if tools:
         payload["tools"] = tools
