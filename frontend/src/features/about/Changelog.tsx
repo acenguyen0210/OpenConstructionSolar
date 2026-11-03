@@ -67,6 +67,13 @@ const UNRELEASED: ChangelogEntry | null = null;
 // carry the long form and are left alone as the record of what shipped.
 const CHANGELOG: ChangelogEntry[] = [
   {
+    version: '19.0.1',
+    date: '2026-11-03',
+    tag: 'NEW',
+    summary:
+      'Vietnam Solar EPC Edition: 12 SOP process groups, solar equipment catalog, aluminum structural schedules, live online VND exchange rates, and specialized solar roles (PM, Site Foreman, Design Engineer, QA/QC, O&M, QS) with local AI 9router integration.',
+  },
+  {
     version: '19.0.0',
     date: '2026-11-02',
     tag: 'NEW',

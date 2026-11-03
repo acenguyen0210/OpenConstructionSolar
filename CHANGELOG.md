@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 > **Tip:** This file is long. Use your browser's **Find** (Ctrl+F) to jump to a version number, or see the [Releases page](https://github.com/datadrivenconstruction/OpenConstructionERP/releases) for a per-release view with download links.
 
+## [19.0.1] - 2026-11-03
+
+### Added
+
+- Vietnam Solar EPC Edition: 12 comprehensive Standard Operating Procedure (SOP) process groups and Vietnam Solar equipment and labor cost catalog.
+- Specialized Solar & Construction user roles: Project Manager (PM), Site Foreman (Chỉ huy trưởng), Technical Supervisor (Giám sát kỹ thuật), Design Engineer (Kỹ sư thiết kế), QA/QC & HSE Engineer, O&M Technician (Kỹ thuật viên Vận hành & Bảo trì), and Quantity Surveyor (QS) with full RBAC hierarchy, permissions, and localized UI management.
+- Live online exchange rates: real-time FX rate integration for VND and non-ECB currencies via open exchange rate API with automated refresh, in-memory caching, and fail-safe offline seed fallback.
+- Solar Aluminum schedule: replaced rebar/steel schedule with aluminum structural schedules tailored for solar mounting systems, with updated AI prompts.
+- Local AI integration: support for local 9router LLM service with non-streaming execution and solar engineering context.
+- Enhanced Windows launcher (`start-solar-vn.bat`): clean console progress with countdown, background daemon execution allowing console exit without terminating the server, and smart running detection with stop/reopen options.
+
+### Changed
+
+- Rebranded application from OpenConstructionERP to OpenConstructionSolar across UI headers, locales, package manifests, and backend metadata.
+
+### Fixed
+
+- Resolved `Unknown currency: VND` error in currency conversion and project FX policy coverage validation when using Vietnamese Dong.
+- Preserved background server persistence and silent logging to `logs/solar-server.log`.
+
 ## [19.0.0] - 2026-11-02
 
 ### Added
